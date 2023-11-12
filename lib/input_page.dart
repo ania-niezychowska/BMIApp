@@ -1,9 +1,10 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'icon_content.dart';
 import 'reusable_card.dart';
 import 'constants.dart';
-
 
 enum Gender {
   female,
@@ -16,8 +17,8 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-
   Gender? selectedGender;
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class _InputPageState extends State<InputPage> {
         backgroundColor: Color(0xFF0A0E21), // Set AppBar color
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
               child: Row(
@@ -38,7 +40,9 @@ class _InputPageState extends State<InputPage> {
                       selectedGender = Gender.male;
                     });
                   },
-                  colour: selectedGender == Gender.male ? kActiveCardColor : kInactiveCardColor,
+                  colour: selectedGender == Gender.male
+                      ? kActiveCardColor
+                      : kInactiveCardColor,
                   cardChild: IconContent(
                     icon: FontAwesomeIcons.mars,
                     label: 'MALE',
@@ -52,7 +56,9 @@ class _InputPageState extends State<InputPage> {
                       selectedGender = Gender.female;
                     });
                   },
-                  colour: selectedGender == Gender.female ? kActiveCardColor : kInactiveCardColor,
+                  colour: selectedGender == Gender.female
+                      ? kActiveCardColor
+                      : kInactiveCardColor,
                   cardChild: IconContent(
                     icon: FontAwesomeIcons.venus,
                     label: 'FEMALE',
@@ -64,10 +70,43 @@ class _InputPageState extends State<InputPage> {
           Expanded(
             child: ReusableCard(
               colour: kActiveCardColor,
-              cardChild: Container(
-                width: double.infinity, // Set width to full width
-                child: Text('HEIGHT'),
-              ), onPress: () {  },
+              cardChild: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'HEIGHT',
+                    style: kLabelTextStyle,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: <Widget>[
+                      Text(
+                        height.toString(),
+                        style: kNumberTextStyle,
+                      ),
+                      Text(
+                        'cm',
+                        style: kLabelTextStyle,
+                      )
+                    ],
+                  ),
+                  Slider(
+                    value: height.toDouble(),
+                    min: 120.0,
+                    max: 220.0,
+                    activeColor: Color(0xFFEB1555),
+                    inactiveColor: Color(0xFF8D8E98),
+                    onChanged: (double newValue) {
+                      setState(() {
+                        height = newValue.round();
+                      });
+                    },
+                  ),
+                ],
+              ),
+              onPress: () {},
             ),
           ),
           Expanded(
@@ -78,7 +117,8 @@ class _InputPageState extends State<InputPage> {
                   colour: kActiveCardColor,
                   cardChild: Column(
                     children: [],
-                  ), onPress: () {  },
+                  ),
+                  onPress: () {},
                 ),
               ),
               Expanded(
@@ -86,7 +126,8 @@ class _InputPageState extends State<InputPage> {
                   colour: kActiveCardColor,
                   cardChild: Column(
                     children: [],
-                  ), onPress: () {  },
+                  ),
+                  onPress: () {},
                 ),
               ),
             ],
